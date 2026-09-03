@@ -1,37 +1,312 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>$DEPO — DEPO Token | Collateral & Yield</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <title>$DEPO — Collateral & Yield Token | DEPO Ecosystem</title>
+    <meta name="description" content="DEPO Token — collateral and yield-bearing asset on Solana. Dual-mode: collateral for 2x loans or staking for 18%/9% APY." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="icon" href="https://raw.githubusercontent.com/metrobanktoken/depo/refs/heads/main/depo_logo.jpg" type="image/jpeg" />
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Inter', sans-serif;
-            background: #0b0e17;
+            background: #0a0e17;
             color: #eef2f8;
-            line-height: 1.6;
-            padding: 0 24px;
+            overflow-x: hidden;
+            position: relative;
         }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0e17;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f0b90b;
+            border-radius: 10px;
+        }
+
+        /* ===== TICKER (верхняя бегущая строка) ===== */
+        .ticker-top {
+            background: #111a2e;
+            border-bottom: 1px solid #f0b90b33;
+            padding: 6px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            font-size: 0.8rem;
+            color: #8b95b0;
+        }
+        .ticker-top .ticker-content {
+            display: inline-block;
+            animation: scrollTicker 30s linear infinite;
+        }
+        .ticker-top .ticker-content span {
+            margin: 0 24px;
+        }
+        .ticker-top .ticker-content .highlight {
+            color: #f0b90b;
+            font-weight: 600;
+        }
+        @keyframes scrollTicker {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ===== НИЖНЯЯ БЕГУЩАЯ СТРОКА ===== */
+        .ticker-bottom {
+            background: #0d1522;
+            border-top: 1px solid #f0b90b22;
+            padding: 6px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            font-size: 0.75rem;
+            color: #6a7a99;
+        }
+        .ticker-bottom .ticker-content {
+            display: inline-block;
+            animation: scrollTickerReverse 35s linear infinite;
+        }
+        .ticker-bottom .ticker-content span {
+            margin: 0 20px;
+        }
+        .ticker-bottom .ticker-content .gold {
+            color: #f0b90b;
+        }
+        @keyframes scrollTickerReverse {
+            0% {
+                transform: translateX(-50%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        /* ===== ФОНОВЫЕ ЛЕТАЮЩИЕ ПРЕДМЕТЫ ===== */
+        .floating-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .floating-bg .item {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.06;
+            animation: floatItem linear infinite;
+        }
+        @keyframes floatItem {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(1);
+                opacity: 0.04;
+            }
+            50% {
+                opacity: 0.1;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(720deg) scale(0.5);
+                opacity: 0.02;
+            }
+        }
+
+        /* ===== НЕОНОВЫЕ ЛИНИИ ===== */
+        .neon-lines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .neon-lines .line {
+            position: absolute;
+            width: 200%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #f0b90b, #ff6b00, #f0b90b, transparent);
+            filter: blur(3px);
+            animation: neonMove 8s linear infinite;
+            opacity: 0.3;
+        }
+        .neon-lines .line:nth-child(1) {
+            top: 15%;
+            animation-duration: 10s;
+            animation-delay: 0s;
+        }
+        .neon-lines .line:nth-child(2) {
+            top: 40%;
+            animation-duration: 7s;
+            animation-delay: 2s;
+            background: linear-gradient(90deg, transparent, #ff6b00, #f0b90b, #ff6b00, transparent);
+        }
+        .neon-lines .line:nth-child(3) {
+            top: 65%;
+            animation-duration: 12s;
+            animation-delay: 4s;
+            background: linear-gradient(90deg, transparent, #f0b90b, #ffaa00, #f0b90b, transparent);
+        }
+        .neon-lines .line:nth-child(4) {
+            top: 85%;
+            animation-duration: 9s;
+            animation-delay: 1s;
+        }
+        @keyframes neonMove {
+            0% {
+                transform: translateX(-50%) scaleX(1);
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateX(50%) scaleX(0.8);
+                opacity: 0.1;
+            }
+        }
+
+        /* ===== CONTAINER ===== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 0;
+            padding: 80px 24px 60px;
+            position: relative;
+            z-index: 1;
         }
-        a { color: #f0b90b; text-decoration: none; }
-        a:hover { opacity: 0.8; }
 
+        /* ===== HEADER / NAV ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid #1e2a42;
+            margin-bottom: 40px;
+        }
+        .header .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .header .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid #f0b90b55;
+        }
+        .header .logo h1 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f0b90b, #d48d0a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header .nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .header .nav a {
+            color: #8b95b0;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.2s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+        .header .nav a:hover,
+        .header .nav a.active {
+            color: #f0b90b;
+            background: #1a2236;
+        }
+        .header .nav .token-link {
+            border: 1px solid #2a3450;
+            border-radius: 20px;
+            padding: 4px 16px;
+            font-size: 0.75rem;
+            color: #cbd5e1;
+        }
+        .header .nav .token-link:hover {
+            border-color: #f0b90b;
+            color: #f0b90b;
+            background: transparent;
+        }
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+        .lang-switch button {
+            background: transparent;
+            border: none;
+            color: #5a6680;
+            font-size: 0.7rem;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: 0.2s;
+            font-weight: 600;
+        }
+        .lang-switch button:hover,
+        .lang-switch button.active {
+            color: #f0b90b;
+            background: #1a2236;
+        }
+
+        /* ===== HERO ===== */
         .hero {
             text-align: center;
             padding: 40px 0 30px;
-            border-bottom: 1px solid #1e2638;
         }
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 700;
+        .hero .badge {
+            display: inline-block;
+            background: #1a2236;
+            padding: 4px 20px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            color: #f0b90b;
+            border: 1px solid #f0b90b33;
+            margin-bottom: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .hero h2 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 12px;
+        }
+        .hero h2 span {
             background: linear-gradient(135deg, #f0b90b, #d48d0a);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -40,188 +315,639 @@
         .hero .sub {
             font-size: 1.2rem;
             color: #8b95b0;
-            margin-top: 8px;
+            max-width: 640px;
+            margin: 0 auto 20px;
         }
-        .hero .badge-group {
-            margin-top: 20px;
+        .hero .stats {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 24px 48px;
+            margin: 20px 0 30px;
+        }
+        .hero .stats .stat {
+            text-align: center;
+        }
+        .hero .stats .stat .num {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f0b90b;
+        }
+        .hero .stats .stat .label {
+            font-size: 0.8rem;
+            color: #6a7a99;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .hero .btn-group {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 12px;
         }
-        .badge {
-            background: #1a2236;
-            padding: 6px 20px;
-            border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: #cbd5e1;
-            border: 1px solid #2a3450;
+        .btn-primary {
+            background: #f0b90b;
+            color: #0a0e17;
+            padding: 14px 36px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-block;
         }
-        .badge span { color: #f0b90b; }
-        .badge.green span { color: #4ade80; }
+        .btn-primary:hover {
+            background: #d48d0a;
+            transform: scale(1.02);
+            box-shadow: 0 0 40px #f0b90b44;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #f0b90b;
+            padding: 14px 36px;
+            border: 1px solid #f0b90b;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-outline:hover {
+            background: #f0b90b22;
+            transform: scale(1.02);
+        }
 
+        /* ===== CARDS ===== */
         .section-title {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700;
-            margin: 40px 0 24px;
             text-align: center;
+            margin: 50px 0 30px;
         }
-        .section-title span { color: #f0b90b; }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-            margin: 30px 0;
-        }
-        .card {
-            background: #131c2e;
-            border-radius: 20px;
-            padding: 28px 20px;
-            border: 1px solid #1e2a42;
-            text-align: center;
-        }
-        .card .icon { font-size: 2.5rem; margin-bottom: 8px; }
-        .card .rate {
-            font-size: 2.2rem;
-            font-weight: 700;
+        .section-title span {
             color: #f0b90b;
         }
-        .card .label {
-            color: #8b95b0;
-            font-size: 0.9rem;
-            margin-top: 4px;
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 20px 0 40px;
         }
-        .card .detail {
+        .card {
+            background: #111a2e;
+            border-radius: 24px;
+            padding: 28px 24px;
+            border: 1px solid #1e2a42;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            border-color: #f0b90b66;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+        .card .icon {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+        }
+        .card .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .card .card-title .highlight {
+            color: #f0b90b;
+        }
+        .card .desc {
             color: #a8b3cf;
             font-size: 0.95rem;
-            margin-top: 12px;
+            margin: 8px 0 16px;
         }
         .card .pill {
             display: inline-block;
-            background: #1e2a42;
+            background: #1a2236;
             padding: 4px 16px;
             border-radius: 40px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
-            margin-top: 12px;
             color: #f0b90b;
+            margin: 4px 4px 0 0;
+        }
+        .card .pill.green {
+            color: #4ade80;
+            background: #1a2e2a;
+        }
+        .card .pill.blue {
+            color: #60a5fa;
+            background: #1a263a;
         }
 
-        .grid-2col {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin: 30px 0;
-        }
-        @media (max-width: 700px) { .grid-2col { grid-template-columns: 1fr; } }
-        .info-block {
-            background: #131c2e;
+        /* ===== TABLE ===== */
+        .table-wrap {
+            background: #111a2e;
             border-radius: 20px;
-            padding: 24px;
+            padding: 8px 0;
             border: 1px solid #1e2a42;
+            overflow-x: auto;
+            margin: 20px 0 40px;
         }
-        .info-block h3 { color: #f0b90b; margin-bottom: 12px; }
-        .info-block ul { list-style: none; padding: 0; }
-        .info-block li { padding: 8px 0; border-bottom: 1px solid #1a2236; color: #a8b3cf; }
-        .info-block li:last-child { border-bottom: none; }
-        .info-block li strong { color: #eef2f8; }
-
-        .pool-link {
-            display: inline-block;
-            background: #1a2236;
-            padding: 14px 32px;
-            border-radius: 60px;
-            font-weight: 600;
-            border: 1px solid #f0b90b;
-            color: #f0b90b;
-            margin: 10px 0 20px;
-            transition: 0.2s;
-        }
-        .pool-link:hover { background: #f0b90b; color: #0b0e17; }
-
-        .footer {
-            text-align: center;
-            padding: 30px 0 20px;
-            border-top: 1px solid #1e2638;
-            color: #5a6680;
+        table {
+            width: 100%;
+            border-collapse: collapse;
             font-size: 0.9rem;
+            min-width: 500px;
+        }
+        th {
+            text-align: left;
+            padding: 14px 20px;
+            color: #6a7a99;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #1e2a42;
+        }
+        td {
+            padding: 12px 20px;
+            border-bottom: 1px solid #0d1522;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .highlight {
+            color: #f0b90b;
+            font-weight: 700;
+        }
+
+        /* ===== COUNTERS ===== */
+        .counters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px 60px;
+            padding: 30px 0;
+            border-top: 1px solid #1e2a42;
             margin-top: 40px;
         }
-        .flex-center { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 2.2rem; }
-            .section-title { font-size: 1.4rem; }
+        .counters .counter-item {
+            text-align: center;
+        }
+        .counters .counter-item .num {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #f0b90b;
+        }
+        .counters .counter-item .label {
+            font-size: 0.8rem;
+            color: #6a7a99;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== POOL LINKS ===== */
+        .pool-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .pool-link {
+            background: #111a2e;
+            padding: 10px 24px;
+            border-radius: 40px;
+            border: 1px solid #2a3450;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .pool-link:hover {
+            border-color: #f0b90b;
+            color: #f0b90b;
+            background: #1a2236;
+        }
+        .pool-link .arrow {
+            color: #f0b90b;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 30px 0 40px;
+            border-top: 1px solid #1e2a42;
+            margin-top: 30px;
+            color: #5a6680;
+            font-size: 0.85rem;
+        }
+        .footer .links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 16px 24px;
+            margin: 12px 0;
+        }
+        .footer .links a {
+            color: #8b95b0;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .footer .links a:hover {
+            color: #f0b90b;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 700px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .header .nav {
+                justify-content: center;
+            }
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .counters {
+                gap: 20px;
+            }
+            .counters .counter-item .num {
+                font-size: 1.8rem;
+            }
+            .ticker-top .ticker-content,
+            .ticker-bottom .ticker-content {
+                font-size: 0.65rem;
+            }
+            .floating-bg .item {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* ===== CREDIT FORM ===== */
+        .credit-form {
+            background: #111a2e;
+            border-radius: 24px;
+            padding: 32px;
+            border: 1px solid #1e2a42;
+            margin: 30px 0;
+        }
+        .credit-form .form-group {
+            margin-bottom: 18px;
+        }
+        .credit-form label {
+            display: block;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+        .credit-form input,
+        .credit-form select,
+        .credit-form textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #2a3450;
+            background: #0d1522;
+            color: #eef2f8;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            transition: 0.2s;
+        }
+        .credit-form input:focus,
+        .credit-form select:focus,
+        .credit-form textarea:focus {
+            outline: none;
+            border-color: #f0b90b;
+            box-shadow: 0 0 0 3px #f0b90b22;
+        }
+        .credit-form .hash-field {
+            background: #0a0e17;
+            border-color: #f0b90b44;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+        .credit-form .hash-field::placeholder {
+            color: #5a6680;
+        }
+        .credit-form .btn-submit {
+            background: #f0b90b;
+            color: #0a0e17;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+        }
+        .credit-form .btn-submit:hover {
+            background: #d48d0a;
+            box-shadow: 0 0 40px #f0b90b44;
+        }
+        .credit-form .note {
+            font-size: 0.8rem;
+            color: #6a7a99;
+            margin-top: 12px;
+            text-align: center;
+        }
+        .credit-form .note .gold {
+            color: #f0b90b;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <!-- HERO -->
-    <section class="hero">
-        <h1>$DEPO</h1>
-        <p class="sub">Collateral & Yield‑Bearing Token · Token-2022</p>
-        <div class="badge-group">
-            <div class="badge">💰 Price <span>$0.01</span></div>
-            <div class="badge">📊 Supply <span>999T</span></div>
-            <div class="badge">⚡ Transfer Fee <span>0.001%</span></div>
-            <div class="badge green">⏳ 25‑month min <span>term</span></div>
-        </div>
-    </section>
 
-    <!-- DUAL MODE -->
-    <h2 class="section-title">Два режима — <span>один токен</span></h2>
-    <div class="cards">
-        <div class="card">
-            <div class="icon">🔐</div>
-            <div class="rate">0%</div>
-            <div class="label">Режим «Залог»</div>
-            <div class="detail">Используй $DEPO как обеспечение для кредитов <strong>$CREDIT</strong> или <strong>$AJR</strong>. Проценты <strong>не начисляются</strong>.</div>
-            <span class="pill">2× плечо</span>
-        </div>
-        <div class="card">
-            <div class="icon">📈</div>
-            <div class="rate">18% / 9%</div>
-            <div class="label">Режим «Депозит»</div>
-            <div class="detail">Стейкай $DEPO на <strong>25 месяцев</strong> и получай доход. Выплата в конце срока или ежемесячно.</div>
-            <span class="pill">мин. 25 мес.</span>
+    <!-- ===== ВЕРХНЯЯ БЕГУЩАЯ СТРОКА ===== -->
+    <div class="ticker-top">
+        <div class="ticker-content">
+            <span>🚀 <span class="highlight">$DEPO</span> $0.01</span>
+            <span>⚡ <span class="highlight">$CREDIT</span> $0.01</span>
+            <span>☪️ <span class="highlight">$AJR</span> $0.01</span>
+            <span>📊 24h Volume: $6.79</span>
+            <span>🏦 Token-2022 Transfer Fee: 0.001%</span>
+            <span>🔐 DEPO Staking: 18% / 9% APY</span>
+            <span>🚀 <span class="highlight">$DEPO</span> $0.01</span>
+            <span>⚡ <span class="highlight">$CREDIT</span> $0.01</span>
+            <span>☪️ <span class="highlight">$AJR</span> $0.01</span>
+            <span>📊 24h Volume: $6.79</span>
+            <span>🏦 Token-2022 Transfer Fee: 0.001%</span>
+            <span>🔐 DEPO Staking: 18% / 9% APY</span>
         </div>
     </div>
 
-    <!-- DEPOSIT PLANS -->
-    <h2 class="section-title">Депозитные <span>планы</span></h2>
-    <div class="grid-2col">
-        <div class="info-block">
-            <h3>📦 План A</h3>
-            <ul>
-                <li><strong>APY:</strong> 18%</li>
-                <li><strong>Выплата:</strong> единоразово в конце срока</li>
-                <li><strong>Срок:</strong> 25 месяцев (мин.)</li>
-                <li><strong>Доход за 25 мес:</strong> ~45% (с капитализацией)</li>
-            </ul>
-        </div>
-        <div class="info-block">
-            <h3>📆 План B</h3>
-            <ul>
-                <li><strong>APY:</strong> 9%</li>
-                <li><strong>Выплата:</strong> ежемесячно (0.75% в месяц)</li>
-                <li><strong>Срок:</strong> 25 месяцев (мин.)</li>
-                <li><strong>Доход за 25 мес:</strong> ~18.75%</li>
-            </ul>
+    <!-- ===== НИЖНЯЯ БЕГУЩАЯ СТРОКА ===== -->
+    <div class="ticker-bottom">
+        <div class="ticker-content">
+            <span>📋 <span class="gold">$CREDIT</span> 36% APR · 15 days approval · 10 days disbursement</span>
+            <span>📋 <span class="gold">$CREDIT</span> 18% APR · 20 days approval · 15 days disbursement</span>
+            <span>📋 <span class="gold">$CREDIT</span> 5% APR · 30 days approval · 20 days disbursement</span>
+            <span>☪️ <span class="gold">$AJR</span> 0% APR · 60 banking days approval · 30 banking days disbursement</span>
+            <span>📋 <span class="gold">$CREDIT</span> 36% APR · 15 days approval · 10 days disbursement</span>
+            <span>📋 <span class="gold">$CREDIT</span> 18% APR · 20 days approval · 15 days disbursement</span>
+            <span>📋 <span class="gold">$CREDIT</span> 5% APR · 30 days approval · 20 days disbursement</span>
+            <span>☪️ <span class="gold">$AJR</span> 0% APR · 60 banking days approval · 30 banking days disbursement</span>
         </div>
     </div>
 
-    <!-- POOL -->
-    <div class="flex-center">
-        <a href="https://www.geckoterminal.com/solana/pools/DUD3Juu8Xt6ghNHD7obW85uAg211yqUy4a3WKxywHtwA" target="_blank" class="pool-link">Торговать $DEPO / USDT →</a>
+    <!-- ===== ФОНОВЫЕ ЛЕТАЮЩИЕ ПРЕДМЕТЫ ===== -->
+    <div class="floating-bg" id="floatingBg"></div>
+
+    <!-- ===== НЕОНОВЫЕ ЛИНИИ ===== -->
+    <div class="neon-lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
     </div>
 
-    <!-- FOOTER -->
-    <div class="footer">
-        <p>© 2026 DEPO Ecosystem · Built on Solana Token‑2022</p>
-        <p style="margin-top:6px;"><a href="https://metrobanktoken.github.io/credit">$CREDIT</a> · <a href="https://metrobanktoken.github.io/ajr">$AJR</a></p>
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="container">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo">
+                <img src="https://raw.githubusercontent.com/metrobanktoken/depo/refs/heads/main/depo_logo.jpg" alt="DEPO Logo" />
+                <h1>$DEPO</h1>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="active">Home</a>
+                <a href="fintech.html">Fintech</a>
+                <a href="marketplace.html">Marketplace</a>
+                <a href="https://metrobanktoken.github.io/credit" class="token-link" target="_blank">$CREDIT</a>
+                <a href="https://metrobanktoken.github.io/ajr" class="token-link" target="_blank">$AJR</a>
+            </nav>
+            <div class="lang-switch">
+                <button class="active" data-lang="en">EN</button>
+                <button data-lang="ru">RU</button>
+                <button data-lang="es">ES</button>
+                <button data-lang="fr">FR</button>
+                <button data-lang="de">DE</button>
+                <button data-lang="ar">AR</button>
+                <button data-lang="zh">ZH</button>
+                <button data-lang="tr">TR</button>
+                <button data-lang="it">IT</button>
+                <button data-lang="pt">PT</button>
+                <button data-lang="ja">JA</button>
+            </div>
+        </header>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="badge">🚀 Token-2022 · Solana</div>
+            <h2><span>DEPO</span> Token</h2>
+            <p class="sub">Collateral and yield-bearing asset. Dual-mode: lock as collateral for 2x loans or stake for 18% / 9% APY. 25-month minimum term.</p>
+            <div class="stats">
+                <div class="stat"><div class="num">$0.01</div><div class="label">Price</div></div>
+                <div class="stat"><div class="num">999T</div><div class="label">Supply</div></div>
+                <div class="stat"><div class="num">0.001%</div><div class="label">Transfer Fee</div></div>
+                <div class="stat"><div class="num">25 mo.</div><div class="label">Min. Term</div></div>
+            </div>
+            <div class="btn-group">
+                <a href="#apply" class="btn-primary">Get a Loan</a>
+                <a href="https://www.geckoterminal.com/solana/pools/DUD3Juu8Xt6ghNHD7obW85uAg211yqUy4a3WKxywHtwA" target="_blank" class="btn-outline">Trade $DEPO →</a>
+            </div>
+        </section>
+
+        <!-- CARDS: DUAL MODE -->
+        <h2 class="section-title">Two Modes — <span>One Token</span></h2>
+        <div class="cards">
+            <div class="card">
+                <div class="icon">🔐</div>
+                <div class="card-title">Collateral Mode</div>
+                <div class="desc">Lock $DEPO to secure loans in <span class="highlight">$CREDIT</span> or <span class="highlight">$AJR</span>. <strong>0% yield</strong> while locked. Get up to <strong>2× leverage</strong>.</div>
+                <span class="pill">0% APR</span>
+                <span class="pill blue">2× leverage</span>
+            </div>
+            <div class="card">
+                <div class="icon">📈</div>
+                <div class="card-title">Deposit Mode</div>
+                <div class="desc">Stake $DEPO for <strong>25 months</strong> and earn passive income. Choose lump-sum or monthly payouts.</div>
+                <span class="pill green">18% APY</span>
+                <span class="pill">9% APY monthly</span>
+                <span class="pill blue">25 mo. min.</span>
+            </div>
+            <div class="card">
+                <div class="icon">🔄</div>
+                <div class="card-title">Mutually Exclusive</div>
+                <div class="desc">You cannot use the same $DEPO for collateral and staking simultaneously. Choose your strategy.</div>
+                <span class="pill">One mode at a time</span>
+            </div>
+        </div>
+
+        <!-- DEPOSIT PLANS TABLE -->
+        <h2 class="section-title">Deposit <span>Plans</span></h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>Plan</th><th>APY</th><th>Payout</th><th>Minimum Term</th><th>Total Return (25 mo.)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Plan A</strong></td><td class="highlight">18%</td><td>Lump-sum at end</td><td>25 months</td><td>~45% (compounded)</td></tr>
+                    <tr><td><strong>Plan B</strong></td><td class="highlight">9%</td><td>Monthly (0.75%)</td><td>25 months</td><td>~18.75%</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CREDIT APPLICATION FORM -->
+        <h2 class="section-title" id="apply">Apply for a <span>Credit</span></h2>
+        <div class="credit-form">
+            <form id="creditForm">
+                <div class="form-group">
+                    <label for="loanAmount">Loan Amount (USD)</label>
+                    <input type="number" id="loanAmount" placeholder="e.g. 100000" min="1000" required />
+                </div>
+                <div class="form-group">
+                    <label for="loanTerm">Term (months)</label>
+                    <select id="loanTerm">
+                        <option value="12">12 months</option>
+                        <option value="24">24 months</option>
+                        <option value="36" selected>36 months</option>
+                        <option value="48">48 months</option>
+                        <option value="60">60 months</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="loanPurpose">Purpose</label>
+                    <select id="loanPurpose">
+                        <option value="business">Business</option>
+                        <option value="personal">Personal</option>
+                        <option value="mortgage">Mortgage</option>
+                        <option value="auto">Auto</option>
+                        <option value="refinance">Refinance</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="walletHash">Your Solana Wallet Hash <span style="color:#f0b90b;">*</span></label>
+                    <input type="text" id="walletHash" class="hash-field" placeholder="Enter your Solana wallet address (required)" required />
+                </div>
+                <div class="form-group">
+                    <label for="tokenBalance">DEPO Token Balance (minimum 10,000 required)</label>
+                    <input type="number" id="tokenBalance" placeholder="e.g. 50000" min="10000" required />
+                </div>
+                <button type="submit" class="btn-submit">Submit Application</button>
+                <div class="note">⚠️ Application requires a valid Solana wallet with a minimum of <span class="gold">10,000 $DEPO</span>. Balance will be verified on-chain.</div>
+            </form>
+            <div id="formStatus" style="margin-top:16px; text-align:center; font-weight:600; color:#4ade80;"></div>
+        </div>
+
+        <!-- POOL LINKS -->
+        <div class="pool-links">
+            <a href="https://www.geckoterminal.com/solana/pools/DUD3Juu8Xt6ghNHD7obW85uAg211yqUy4a3WKxywHtwA" target="_blank" class="pool-link">$DEPO / USDT <span class="arrow">→</span></a>
+            <a href="https://metrobanktoken.github.io/credit" target="_blank" class="pool-link">$CREDIT Token <span class="arrow">→</span></a>
+            <a href="https://metrobanktoken.github.io/ajr" target="_blank" class="pool-link">$AJR Token <span class="arrow">→</span></a>
+        </div>
+
+        <!-- COUNTERS -->
+        <div class="counters">
+            <div class="counter-item">
+                <div class="num" id="visitorCount">12,000</div>
+                <div class="label">Visitors</div>
+            </div>
+            <div class="counter-item">
+                <div class="num" id="clientCount">266</div>
+                <div class="label">Active Clients</div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="links">
+                <a href="https://metrobanktoken.github.io/depo">$DEPO</a>
+                <a href="https://metrobanktoken.github.io/credit">$CREDIT</a>
+                <a href="https://metrobanktoken.github.io/ajr">$AJR</a>
+                <a href="#">Whitepaper</a>
+                <a href="#">Docs</a>
+                <a href="#">Support</a>
+            </div>
+            <p>© 2026 DEPO Ecosystem · Built on Solana Token‑2022</p>
+            <p style="font-size:0.7rem; color:#3a4a66; margin-top:4px;">SWIFT · SEPA · IBAN · GPI · POS · Fiat · Cash · Crypto</p>
+        </footer>
+
     </div>
-</div>
+
+    <script>
+        // ===== ЛЕТАЮЩИЕ ПРЕДМЕТЫ =====
+        (function createFloatingItems() {
+            const container = document.getElementById('floatingBg');
+            const symbols = ['$', '€', '£', '₿', '💳', '🏦', '📊', '💰', '🔐', '📈'];
+            for (let i = 0; i < 25; i++) {
+                const el = document.createElement('span');
+                el.className = 'item';
+                el.textContent = symbols[i % symbols.length];
+                el.style.left = Math.random() * 100 + '%';
+                el.style.fontSize = (1.2 + Math.random() * 2) + 'rem';
+                el.style.animationDuration = (20 + Math.random() * 30) + 's';
+                el.style.animationDelay = (Math.random() * 20) + 's';
+                container.appendChild(el);
+            }
+        })();
+
+        // ===== ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ (заглушка) =====
+        document.querySelectorAll('.lang-switch button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                // Здесь можно добавить реальный перевод
+                alert('Language switched to: ' + this.textContent + ' (demo)');
+            });
+        });
+
+        // ===== СЧЁТЧИКИ =====
+        let visitors = 12000;
+        let clients = 266;
+
+        function updateCounters() {
+            visitors += 2;
+            clients += 1;
+            document.getElementById('visitorCount').textContent = visitors.toLocaleString();
+            document.getElementById('clientCount').textContent = clients.toLocaleString();
+        }
+        setInterval(updateCounters, 60000); // каждую минуту
+
+        // ===== ФОРМА ЗАЯВКИ =====
+        document.getElementById('creditForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const wallet = document.getElementById('walletHash').value.trim();
+            const balance = parseFloat(document.getElementById('tokenBalance').value);
+
+            if (!wallet || wallet.length < 20) {
+                document.getElementById('formStatus').textContent = '❌ Please enter a valid Solana wallet address.';
+                document.getElementById('formStatus').style.color = '#ff6b6b';
+                return;
+            }
+            if (isNaN(balance) || balance < 10000) {
+                document.getElementById('formStatus').textContent = '❌ Minimum 10,000 $DEPO required.';
+                document.getElementById('formStatus').style.color = '#ff6b6b';
+                return;
+            }
+
+            // Имитация отправки
+            document.getElementById('formStatus').textContent = '⏳ Verifying on-chain balance...';
+            document.getElementById('formStatus').style.color = '#f0b90b';
+
+            setTimeout(() => {
+                document.getElementById('formStatus').textContent = '✅ Application submitted successfully! You will receive a confirmation within 24 hours.';
+                document.getElementById('formStatus').style.color = '#4ade80';
+                document.getElementById('creditForm').reset();
+            }, 2500);
+        });
+    </script>
+
 </body>
 </html>
