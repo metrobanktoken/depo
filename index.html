@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>$DEPO — DEPO Token | Collateral & Yield</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0b0e17;
+            color: #eef2f8;
+            line-height: 1.6;
+            padding: 0 24px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+        a { color: #f0b90b; text-decoration: none; }
+        a:hover { opacity: 0.8; }
+
+        .hero {
+            text-align: center;
+            padding: 40px 0 30px;
+            border-bottom: 1px solid #1e2638;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f0b90b, #d48d0a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero .sub {
+            font-size: 1.2rem;
+            color: #8b95b0;
+            margin-top: 8px;
+        }
+        .hero .badge-group {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .badge {
+            background: #1a2236;
+            padding: 6px 20px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            border: 1px solid #2a3450;
+        }
+        .badge span { color: #f0b90b; }
+        .badge.green span { color: #4ade80; }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 40px 0 24px;
+            text-align: center;
+        }
+        .section-title span { color: #f0b90b; }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin: 30px 0;
+        }
+        .card {
+            background: #131c2e;
+            border-radius: 20px;
+            padding: 28px 20px;
+            border: 1px solid #1e2a42;
+            text-align: center;
+        }
+        .card .icon { font-size: 2.5rem; margin-bottom: 8px; }
+        .card .rate {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #f0b90b;
+        }
+        .card .label {
+            color: #8b95b0;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+        .card .detail {
+            color: #a8b3cf;
+            font-size: 0.95rem;
+            margin-top: 12px;
+        }
+        .card .pill {
+            display: inline-block;
+            background: #1e2a42;
+            padding: 4px 16px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 12px;
+            color: #f0b90b;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 30px 0;
+        }
+        @media (max-width: 700px) { .grid-2col { grid-template-columns: 1fr; } }
+        .info-block {
+            background: #131c2e;
+            border-radius: 20px;
+            padding: 24px;
+            border: 1px solid #1e2a42;
+        }
+        .info-block h3 { color: #f0b90b; margin-bottom: 12px; }
+        .info-block ul { list-style: none; padding: 0; }
+        .info-block li { padding: 8px 0; border-bottom: 1px solid #1a2236; color: #a8b3cf; }
+        .info-block li:last-child { border-bottom: none; }
+        .info-block li strong { color: #eef2f8; }
+
+        .pool-link {
+            display: inline-block;
+            background: #1a2236;
+            padding: 14px 32px;
+            border-radius: 60px;
+            font-weight: 600;
+            border: 1px solid #f0b90b;
+            color: #f0b90b;
+            margin: 10px 0 20px;
+            transition: 0.2s;
+        }
+        .pool-link:hover { background: #f0b90b; color: #0b0e17; }
+
+        .footer {
+            text-align: center;
+            padding: 30px 0 20px;
+            border-top: 1px solid #1e2638;
+            color: #5a6680;
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+        .flex-center { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2.2rem; }
+            .section-title { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- HERO -->
+    <section class="hero">
+        <h1>$DEPO</h1>
+        <p class="sub">Collateral & Yield‑Bearing Token · Token-2022</p>
+        <div class="badge-group">
+            <div class="badge">💰 Price <span>$0.01</span></div>
+            <div class="badge">📊 Supply <span>999T</span></div>
+            <div class="badge">⚡ Transfer Fee <span>0.001%</span></div>
+            <div class="badge green">⏳ 25‑month min <span>term</span></div>
+        </div>
+    </section>
+
+    <!-- DUAL MODE -->
+    <h2 class="section-title">Два режима — <span>один токен</span></h2>
+    <div class="cards">
+        <div class="card">
+            <div class="icon">🔐</div>
+            <div class="rate">0%</div>
+            <div class="label">Режим «Залог»</div>
+            <div class="detail">Используй $DEPO как обеспечение для кредитов <strong>$CREDIT</strong> или <strong>$AJR</strong>. Проценты <strong>не начисляются</strong>.</div>
+            <span class="pill">2× плечо</span>
+        </div>
+        <div class="card">
+            <div class="icon">📈</div>
+            <div class="rate">18% / 9%</div>
+            <div class="label">Режим «Депозит»</div>
+            <div class="detail">Стейкай $DEPO на <strong>25 месяцев</strong> и получай доход. Выплата в конце срока или ежемесячно.</div>
+            <span class="pill">мин. 25 мес.</span>
+        </div>
+    </div>
+
+    <!-- DEPOSIT PLANS -->
+    <h2 class="section-title">Депозитные <span>планы</span></h2>
+    <div class="grid-2col">
+        <div class="info-block">
+            <h3>📦 План A</h3>
+            <ul>
+                <li><strong>APY:</strong> 18%</li>
+                <li><strong>Выплата:</strong> единоразово в конце срока</li>
+                <li><strong>Срок:</strong> 25 месяцев (мин.)</li>
+                <li><strong>Доход за 25 мес:</strong> ~45% (с капитализацией)</li>
+            </ul>
+        </div>
+        <div class="info-block">
+            <h3>📆 План B</h3>
+            <ul>
+                <li><strong>APY:</strong> 9%</li>
+                <li><strong>Выплата:</strong> ежемесячно (0.75% в месяц)</li>
+                <li><strong>Срок:</strong> 25 месяцев (мин.)</li>
+                <li><strong>Доход за 25 мес:</strong> ~18.75%</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- POOL -->
+    <div class="flex-center">
+        <a href="https://www.geckoterminal.com/solana/pools/DUD3Juu8Xt6ghNHD7obW85uAg211yqUy4a3WKxywHtwA" target="_blank" class="pool-link">Торговать $DEPO / USDT →</a>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>© 2026 DEPO Ecosystem · Built on Solana Token‑2022</p>
+        <p style="margin-top:6px;"><a href="https://metrobanktoken.github.io/credit">$CREDIT</a> · <a href="https://metrobanktoken.github.io/ajr">$AJR</a></p>
+    </div>
+</div>
+</body>
+</html>
