@@ -1020,18 +1020,30 @@
                     <input type="number" id="loanAmount" name="Loan Amount" placeholder="e.g. 50000" min="5000" required />
                 </div>
 
-                <!-- Авторасчёт $DEPO -->
+                <!-- Авторасчёт залога -->
                 <div class="form-group" style="background: #0d1522; padding: 16px; border-radius: 12px; border: 1px solid #2a3450;">
-                    <label style="color: #cbd5e1;">Required $DEPO (auto-calculated)</label>
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                        <span style="font-size: 1.8rem; font-weight: 800; color: #f0b90b;" id="depoRequired">500,000</span>
-                        <span style="color: #6a7a99; font-size: 0.85rem;">= $<span id="depoRequiredUsd">5,000</span></span>
+                    <label style="color: #cbd5e1;">Required Collateral (auto-calculated)</label>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 8px 0; border-bottom: 1px solid #1a2236;">
+                        <span style="color: #8b95b0; font-size: 0.85rem;">💰 In USD</span>
+                        <span style="font-size: 1.4rem; font-weight: 800; color: #f0b90b;" id="collateralUsd">$25,000</span>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 8px 0;">
+                        <span style="color: #8b95b0; font-size: 0.85rem;">🪙 In $DEPO tokens</span>
+                        <span style="font-size: 1.4rem; font-weight: 800; color: #ffffff;" id="collateralDepo">2,500,000</span>
+                    </div>
+                    
+                    <div style="margin-top: 12px; display: flex; justify-content: flex-end;">
                         <a href="#" id="swapDepoBtn" class="btn-outline" style="padding: 8px 20px; font-size: 0.8rem; text-decoration: none;">Swap to $DEPO →</a>
                     </div>
-                    <div style="font-size: 0.75rem; color: #6a7a99; margin-top: 6px;">
-                        ⚡ 2× leverage: you need <strong>50%</strong> of loan amount in $DEPO
+                    
+                    <div style="font-size: 0.75rem; color: #6a7a99; margin-top: 8px;">
+                        ⚡ 2× leverage: you need <strong>50%</strong> of loan amount in $DEPO collateral
                     </div>
-                    <input type="hidden" id="depoRequiredHidden" name="DEPO Required" value="500,000" />
+                    
+                    <input type="hidden" id="collateralUsdHidden" name="Collateral USD" value="25,000" />
+                    <input type="hidden" id="collateralDepoHidden" name="Collateral DEPO" value="2,500,000" />
                 </div>
 
                 <!-- Срок и цель -->
@@ -1278,16 +1290,32 @@
             };
         })();
 
-        // ===== АВТОРАСЧЁТ $DEPO =====
+        // ===== АВТОРАСЧЁТ ЗАЛОГА (USD + $DEPO) =====
         document.getElementById('loanAmount').addEventListener('input', function() {
             const amount = parseFloat(this.value) || 0;
-            const depoRequired = amount / 2;
-            const formatted = Math.floor(depoRequired).toLocaleString();
-            document.getElementById('depoRequired').textContent = formatted;
-            document.getElementById('depoRequiredUsd').textContent = (depoRequired * 0.01).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            document.getElementById('depoRequiredHidden').value = formatted + ' ($' + (depoRequired * 0.01).toFixed(2) + ')';
             
-            const swapUrl = 'https://jup.ag/swap/SOL-DEPO?amount=' + Math.floor(depoRequired);
+            // Залог в USD = 50% от суммы кредита
+            const collateralUsd = amount / 2;
+            
+            // Залог в $DEPO = (сумма в USD / цена $DEPO) 
+            // При цене $0.01 за 1 $DEPO: collateralUsd / 0.01
+            const depoPrice = 0.01;
+            const collateralDepo = collateralUsd / depoPrice;
+            
+            // Форматируем числа
+            const formattedUsd = '$' + collateralUsd.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            const formattedDepo = Math.floor(collateralDepo).toLocaleString();
+            
+            // Обновляем отображение
+            document.getElementById('collateralUsd').textContent = formattedUsd;
+            document.getElementById('collateralDepo').textContent = formattedDepo;
+            
+            // Обновляем скрытые поля для отправки
+            document.getElementById('collateralUsdHidden').value = formattedUsd;
+            document.getElementById('collateralDepoHidden').value = formattedDepo;
+            
+            // Обновляем ссылку на своп (Jupiter)
+            const swapUrl = 'https://jup.ag/swap/SOL-DEPO?amount=' + Math.floor(collateralDepo);
             document.getElementById('swapDepoBtn').href = swapUrl;
         });
 
@@ -1349,7 +1377,8 @@
             }
 
             const loanAmount = document.getElementById('loanAmount').value;
-            const depoRequired = document.getElementById('depoRequiredHidden').value;
+            const collateralUsd = document.getElementById('collateralUsdHidden').value;
+            const collateralDepo = document.getElementById('collateralDepoHidden').value;
             const term = document.getElementById('loanTerm').value;
             const purpose = document.getElementById('loanPurpose').value;
             const email = document.getElementById('userEmail').value;
@@ -1368,7 +1397,8 @@
             // Данные для Formspree
             const form = document.getElementById('creditForm');
             const formData = new FormData(form);
-            formData.append('DEPO Required', depoRequired);
+            formData.append('Collateral USD', collateralUsd);
+            formData.append('Collateral DEPO', collateralDepo);
             formData.append('Wallet Address', walletAddress);
             formData.append('Status', 'Pending');
 
@@ -1384,8 +1414,8 @@
                     document.getElementById('formStatus').textContent = '✅ Application submitted! Check your email for confirmation.';
                     document.getElementById('formStatus').style.color = '#4ade80';
                     form.reset();
-                    document.getElementById('depoRequired').textContent = '0';
-                    document.getElementById('depoRequiredUsd').textContent = '0';
+                    document.getElementById('collateralUsd').textContent = '$0.00';
+                    document.getElementById('collateralDepo').textContent = '0';
                     document.getElementById('submitBtn').disabled = true;
                     document.getElementById('submitBtn').textContent = 'Submitted ✓';
                 } else {
@@ -1402,7 +1432,8 @@
                 id: 'DEPO-' + Date.now(),
                 timestamp: new Date().toISOString(),
                 loanAmount: parseFloat(loanAmount),
-                depoRequired: parseInt(depoRequired.replace(/,/g, '')),
+                collateralUsd: collateralUsd,
+                collateralDepo: parseInt(collateralDepo.replace(/,/g, '')),
                 term: parseInt(term),
                 purpose: purpose,
                 email: email,
@@ -1414,8 +1445,15 @@
             localStorage.setItem('depo_applications', JSON.stringify(applications));
         });
 
-        // ===== АВТОЗАПУСК КАЛЬКУЛЯТОРА =====
-        document.getElementById('collateralCalcBtn').click();
+        // ===== АВТОЗАПУСК КАЛЬКУЛЯТОРОВ =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Автозапуск расчёта залога
+            const event = new Event('input');
+            document.getElementById('loanAmount').dispatchEvent(event);
+            
+            // Автозапуск калькулятора кредита
+            document.getElementById('collateralCalcBtn').click();
+        });
 
         // ===== ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ =====
         document.querySelectorAll('.lang-switch button').forEach(btn => {
