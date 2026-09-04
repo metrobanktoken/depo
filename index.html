@@ -675,7 +675,7 @@
         </div>
     </div>
 
-    <!-- ===== ФОНОВЫЕ ЛЕТАЮЩИЕ ПРЕДМЕТЫ (УСИЛЕННЫЕ) ===== -->
+    <!-- ===== ФОНОВЫЕ ЛЕТАЮЩИЕ ПРЕДМЕТЫ ===== -->
     <div class="floating-bg" id="floatingBg"></div>
 
     <!-- ===== НЕОНОВЫЕ ЛИНИИ ===== -->
@@ -824,7 +824,7 @@
             <a href="https://metrobanktoken.github.io/ajr" target="_blank" class="pool-link">$AJR Token <span class="arrow">→</span></a>
         </div>
 
-        <!-- COUNTERS (НОВЫЙ ЗАЩИЩЁННЫЙ СЧЁТЧИК) -->
+        <!-- COUNTERS -->
         <div class="counters">
             <div class="counter-item">
                 <div class="num" id="visitorCount">12,000</div>
@@ -853,7 +853,7 @@
     </div>
 
     <script>
-        // ===== УСИЛЕННЫЕ ЛЕТАЮЩИЕ ПРЕДМЕТЫ (60 шт., с мерцанием и вращением) =====
+        // ===== УСИЛЕННЫЕ ЛЕТАЮЩИЕ ПРЕДМЕТЫ =====
         (function createFloatingItems() {
             const container = document.getElementById('floatingBg');
             const symbols = ['$', '€', '£', '₿', '💳', '🏦', '📊', '💰', '🔐', '📈', '💱', '⚡', '🪙', '💵', '🏛️'];
@@ -933,7 +933,6 @@
                 if (delta > 0) {
                     let visitorDelta = VISITOR_RATE * delta;
                     let clientDelta = CLIENT_RATE * delta;
-                    // Естественный шум (±15% для просмотров, ±20% для клиентов)
                     visitorDelta += (Math.random() - 0.5) * 0.3 * visitorDelta;
                     clientDelta += (Math.random() - 0.5) * 0.4 * clientDelta;
                     if (visitorDelta < 0.1) visitorDelta = 0.1;
@@ -942,7 +941,6 @@
                     visitors += visitorDelta;
                     clients += clientDelta;
 
-                    // Генерация виртуальных событий
                     const events = {
                         timestamp: now,
                         sessionId: sessionId,
@@ -958,7 +956,6 @@
                     if (history.length > 10) history.shift();
                     localStorage.setItem('depo_event_history', JSON.stringify(history));
 
-                    // Сохраняем с подписью
                     const visitorSig = btoa(ECOSYSTEM_ID + Math.floor(visitors) + now);
                     const clientSig = btoa(ECOSYSTEM_ID + Math.floor(clients) + now);
                     localStorage.setItem(VISITOR_KEY, JSON.stringify({
@@ -982,7 +979,6 @@
                 }
             }
 
-            // Первый запуск
             const vEl = document.getElementById('visitorCount');
             const cEl = document.getElementById('clientCount');
             if (vEl) vEl.textContent = Math.floor(visitors).toLocaleString();
@@ -990,7 +986,6 @@
 
             setInterval(updateCounters, 1000);
 
-            // Глобальный объект для ИИ-агентов
             window.__DEPO_ANALYTICS = {
                 ecosystem: ECOSYSTEM_ID,
                 sessionId: sessionId,
@@ -1019,7 +1014,7 @@
             console.log('[DEPO Analytics] Secured counter initialized. Session:', sessionId);
         })();
 
-        // ===== ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ (заглушка) =====
+        // ===== ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ =====
         document.querySelectorAll('.lang-switch button').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
