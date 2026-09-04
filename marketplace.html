@@ -3,501 +3,91 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>$DEPO — Marketplace | Swaps & Contracts</title>
+    <title>$DEPO — Marketplace</title>
+    <meta name="depo-analytics-status" content="active" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
     <link rel="icon" href="https://raw.githubusercontent.com/metrobanktoken/depo/refs/heads/main/depo_logo.jpg" type="image/jpeg" />
     <style>
-        /* ===== КОПИРУЕМ ВЕСЬ СТИЛЬ ИЗ index.html ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0a0e17;
-            color: #eef2f8;
-            overflow-x: hidden;
-            position: relative;
-        }
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0e17;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #f0b90b;
-            border-radius: 10px;
-        }
-
-        .ticker-top {
-            background: #111a2e;
-            border-bottom: 1px solid #f0b90b33;
-            padding: 6px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            font-size: 0.8rem;
-            color: #8b95b0;
-        }
-        .ticker-top .ticker-content {
-            display: inline-block;
-            animation: scrollTicker 30s linear infinite;
-        }
-        .ticker-top .ticker-content span {
-            margin: 0 24px;
-        }
-        .ticker-top .ticker-content .highlight {
-            color: #f0b90b;
-            font-weight: 600;
-        }
-        @keyframes scrollTicker {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
-        }
-
-        .ticker-bottom {
-            background: #0d1522;
-            border-top: 1px solid #f0b90b22;
-            padding: 6px 0;
-            overflow: hidden;
-            white-space: nowrap;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            font-size: 0.75rem;
-            color: #6a7a99;
-        }
-        .ticker-bottom .ticker-content {
-            display: inline-block;
-            animation: scrollTickerReverse 35s linear infinite;
-        }
-        .ticker-bottom .ticker-content span {
-            margin: 0 20px;
-        }
-        .ticker-bottom .ticker-content .gold {
-            color: #f0b90b;
-        }
-        @keyframes scrollTickerReverse {
-            0% {
-                transform: translateX(-50%);
-            }
-            100% {
-                transform: translateX(0);
-            }
-        }
-
-        .floating-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-        .floating-bg .item {
-            position: absolute;
-            font-size: 2rem;
-            opacity: 0.06;
-            animation: floatItem linear infinite;
-        }
-        @keyframes floatItem {
-            0% {
-                transform: translateY(100vh) rotate(0deg) scale(1);
-                opacity: 0.04;
-            }
-            50% {
-                opacity: 0.1;
-            }
-            100% {
-                transform: translateY(-10vh) rotate(720deg) scale(0.5);
-                opacity: 0.02;
-            }
-        }
-
-        .neon-lines {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-        .neon-lines .line {
-            position: absolute;
-            width: 200%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #f0b90b, #ff6b00, #f0b90b, transparent);
-            filter: blur(3px);
-            animation: neonMove 8s linear infinite;
-            opacity: 0.3;
-        }
-        .neon-lines .line:nth-child(1) {
-            top: 15%;
-            animation-duration: 10s;
-            animation-delay: 0s;
-        }
-        .neon-lines .line:nth-child(2) {
-            top: 40%;
-            animation-duration: 7s;
-            animation-delay: 2s;
-            background: linear-gradient(90deg, transparent, #ff6b00, #f0b90b, #ff6b00, transparent);
-        }
-        .neon-lines .line:nth-child(3) {
-            top: 65%;
-            animation-duration: 12s;
-            animation-delay: 4s;
-            background: linear-gradient(90deg, transparent, #f0b90b, #ffaa00, #f0b90b, transparent);
-        }
-        .neon-lines .line:nth-child(4) {
-            top: 85%;
-            animation-duration: 9s;
-            animation-delay: 1s;
-        }
-        @keyframes neonMove {
-            0% {
-                transform: translateX(-50%) scaleX(1);
-                opacity: 0.2;
-            }
-            50% {
-                opacity: 0.6;
-            }
-            100% {
-                transform: translateX(50%) scaleX(0.8);
-                opacity: 0.1;
-            }
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 24px 60px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-            padding: 16px 0;
-            border-bottom: 1px solid #1e2a42;
-            margin-bottom: 40px;
-        }
-        .header .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .header .logo img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid #f0b90b55;
-        }
-        .header .logo h1 {
-            font-size: 1.4rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #f0b90b, #d48d0a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .header .nav {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .header .nav a {
-            color: #8b95b0;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: 0.2s;
-            padding: 6px 12px;
-            border-radius: 8px;
-        }
-        .header .nav a:hover,
-        .header .nav a.active {
-            color: #f0b90b;
-            background: #1a2236;
-        }
-        .header .nav .token-link {
-            border: 1px solid #2a3450;
-            border-radius: 20px;
-            padding: 4px 16px;
-            font-size: 0.75rem;
-            color: #cbd5e1;
-        }
-        .header .nav .token-link:hover {
-            border-color: #f0b90b;
-            color: #f0b90b;
-            background: transparent;
-        }
-        .lang-switch {
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-        .lang-switch button {
-            background: transparent;
-            border: none;
-            color: #5a6680;
-            font-size: 0.7rem;
-            cursor: pointer;
-            padding: 2px 6px;
-            border-radius: 4px;
-            transition: 0.2s;
-            font-weight: 600;
-        }
-        .lang-switch button:hover,
-        .lang-switch button.active {
-            color: #f0b90b;
-            background: #1a2236;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            text-align: center;
-            margin: 50px 0 30px;
-        }
-        .section-title span {
-            color: #f0b90b;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            margin: 20px 0 40px;
-        }
-        .card {
-            background: #111a2e;
-            border-radius: 24px;
-            padding: 28px 24px;
-            border: 1px solid #1e2a42;
-            transition: 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-6px);
-            border-color: #f0b90b66;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        }
-        .card .icon {
-            font-size: 2.4rem;
-            margin-bottom: 12px;
-        }
-        .card .card-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 6px;
-        }
-        .card .desc {
-            color: #a8b3cf;
-            font-size: 0.9rem;
-        }
-        .card .pill {
-            display: inline-block;
-            background: #1a2236;
-            padding: 4px 16px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: #f0b90b;
-            margin-top: 12px;
-        }
-        .card .pill.green {
-            color: #4ade80;
-            background: #1a2e2a;
-        }
-        .card .pill.blue {
-            color: #60a5fa;
-            background: #1a263a;
-        }
-
-        .contract-item {
-            background: #0d1522;
-            border-radius: 16px;
-            padding: 16px 20px;
-            border: 1px solid #1e2a42;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-        .contract-item .contract-id {
-            font-family: monospace;
-            color: #f0b90b;
-            font-size: 0.85rem;
-        }
-        .contract-item .contract-detail {
-            color: #8b95b0;
-            font-size: 0.85rem;
-        }
-        .contract-item .contract-status {
-            font-weight: 600;
-            font-size: 0.8rem;
-        }
-        .contract-item .contract-status.active {
-            color: #4ade80;
-        }
-        .contract-item .contract-status.pending {
-            color: #facc15;
-        }
-        .contract-item .contract-status.completed {
-            color: #60a5fa;
-        }
-
-        .swap-box {
-            background: #111a2e;
-            border-radius: 24px;
-            padding: 32px;
-            border: 1px solid #1e2a42;
-            margin: 20px 0 40px;
-            max-width: 500px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .swap-box .swap-row {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .swap-box .swap-row select,
-        .swap-box .swap-row input {
-            flex: 1;
-            padding: 12px 16px;
-            border-radius: 12px;
-            border: 1px solid #2a3450;
-            background: #0d1522;
-            color: #eef2f8;
-            font-size: 0.95rem;
-            font-family: 'Inter', sans-serif;
-        }
-        .swap-box .swap-row select:focus,
-        .swap-box .swap-row input:focus {
-            outline: none;
-            border-color: #f0b90b;
-        }
-        .swap-box .btn-swap {
-            width: 100%;
-            background: #f0b90b;
-            color: #0a0e17;
-            padding: 14px;
-            border: none;
-            border-radius: 60px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .swap-box .btn-swap:hover {
-            background: #d48d0a;
-            box-shadow: 0 0 40px #f0b90b44;
-        }
-
-        .counters {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 40px 60px;
-            padding: 30px 0;
-            border-top: 1px solid #1e2a42;
-            margin-top: 40px;
-        }
-        .counters .counter-item {
-            text-align: center;
-        }
-        .counters .counter-item .num {
-            font-size: 2.4rem;
-            font-weight: 800;
-            color: #f0b90b;
-        }
-        .counters .counter-item .label {
-            font-size: 0.8rem;
-            color: #6a7a99;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 30px 0 40px;
-            border-top: 1px solid #1e2a42;
-            margin-top: 30px;
-            color: #5a6680;
-            font-size: 0.85rem;
-        }
-        .footer .links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 16px 24px;
-            margin: 12px 0;
-        }
-        .footer .links a {
-            color: #8b95b0;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-        .footer .links a:hover {
-            color: #f0b90b;
-        }
-
-        @media (max-width: 700px) {
-            .header {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 12px;
-            }
-            .header .nav {
-                justify-content: center;
-            }
-            .section-title {
-                font-size: 1.5rem;
-            }
-            .counters {
-                gap: 20px;
-            }
-            .counters .counter-item .num {
-                font-size: 1.8rem;
-            }
-            .swap-box .swap-row {
-                flex-direction: column;
-            }
-            .contract-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-        }
+        /* Копируем весь CSS из fintech.html + специфичные для marketplace */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0e17; color: #eef2f8; overflow-x: hidden; position: relative; min-height: 100vh; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0e17; }
+        ::-webkit-scrollbar-thumb { background: #f0b90b; border-radius: 10px; }
+        .ticker-top { background: #111a2e; border-bottom: 1px solid #f0b90b33; padding: 6px 0; overflow: hidden; white-space: nowrap; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; font-size: 0.8rem; color: #8b95b0; }
+        .ticker-top .ticker-content { display: inline-block; animation: scrollTicker 30s linear infinite; }
+        .ticker-top .ticker-content span { margin: 0 24px; }
+        .ticker-top .ticker-content .highlight { color: #f0b90b; font-weight: 600; }
+        @keyframes scrollTicker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .ticker-bottom { background: #0d1522; border-top: 1px solid #f0b90b22; padding: 6px 0; overflow: hidden; white-space: nowrap; position: fixed; bottom: 0; left: 0; width: 100%; z-index: 1000; font-size: 0.75rem; color: #6a7a99; }
+        .ticker-bottom .ticker-content { display: inline-block; animation: scrollTickerReverse 35s linear infinite; }
+        .ticker-bottom .ticker-content span { margin: 0 20px; }
+        .ticker-bottom .ticker-content .gold { color: #f0b90b; }
+        @keyframes scrollTickerReverse { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
+        .floating-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .floating-bg .item { position: absolute; font-size: 2rem; opacity: 0.06; animation: floatItem linear infinite; will-change: transform; }
+        .floating-bg .item.glow { filter: drop-shadow(0 0 8px rgba(240, 185, 11, 0.3)); }
+        @keyframes floatItem { 0% { transform: translateY(100vh) rotate(0deg) scale(0.8); opacity: 0.03; } 20% { opacity: 0.08; } 80% { opacity: 0.08; } 100% { transform: translateY(-10vh) rotate(720deg) scale(1.2); opacity: 0.01; } }
+        .neon-lines { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .neon-lines .line { position: absolute; width: 200%; height: 2px; background: linear-gradient(90deg, transparent, #f0b90b, #ff6b00, #f0b90b, transparent); filter: blur(3px); animation: neonMove 8s linear infinite; opacity: 0.3; }
+        .neon-lines .line:nth-child(1) { top: 15%; animation-duration: 10s; }
+        .neon-lines .line:nth-child(2) { top: 40%; animation-duration: 7s; animation-delay: 2s; background: linear-gradient(90deg, transparent, #ff6b00, #f0b90b, #ff6b00, transparent); }
+        .neon-lines .line:nth-child(3) { top: 65%; animation-duration: 12s; animation-delay: 4s; }
+        .neon-lines .line:nth-child(4) { top: 85%; animation-duration: 9s; animation-delay: 1s; }
+        @keyframes neonMove { 0% { transform: translateX(-50%) scaleX(1); opacity: 0.2; } 50% { opacity: 0.6; } 100% { transform: translateX(50%) scaleX(0.8); opacity: 0.1; } }
+        .container { max-width: 1200px; margin: 0 auto; padding: 80px 24px 60px; position: relative; z-index: 1; }
+        .header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; padding: 16px 0; border-bottom: 1px solid #1e2a42; margin-bottom: 40px; }
+        .header .logo { display: flex; align-items: center; gap: 12px; }
+        .header .logo img { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #f0b90b55; }
+        .header .logo h1 { font-size: 1.4rem; font-weight: 800; background: linear-gradient(135deg, #f0b90b, #d48d0a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .header .nav { display: flex; gap: 20px; flex-wrap: wrap; }
+        .header .nav a { color: #8b95b0; text-decoration: none; font-size: 0.9rem; font-weight: 600; transition: 0.2s; padding: 6px 12px; border-radius: 8px; }
+        .header .nav a:hover, .header .nav a.active { color: #f0b90b; background: #1a2236; }
+        .header .nav .token-link { border: 1px solid #2a3450; border-radius: 20px; padding: 4px 16px; font-size: 0.75rem; color: #cbd5e1; }
+        .header .nav .token-link:hover { border-color: #f0b90b; color: #f0b90b; background: transparent; }
+        .lang-switch { display: flex; gap: 4px; flex-wrap: wrap; }
+        .lang-switch button { background: transparent; border: none; color: #5a6680; font-size: 0.7rem; cursor: pointer; padding: 2px 6px; border-radius: 4px; transition: 0.2s; font-weight: 600; }
+        .lang-switch button:hover, .lang-switch button.active { color: #f0b90b; background: #1a2236; }
+        .section-title { font-size: 2rem; font-weight: 700; text-align: center; margin: 50px 0 30px; }
+        .section-title span { color: #f0b90b; }
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 20px 0 40px; }
+        .card { background: #111a2e; border-radius: 24px; padding: 28px 24px; border: 1px solid #1e2a42; transition: 0.3s; }
+        .card:hover { transform: translateY(-6px); border-color: #f0b90b66; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); }
+        .card .icon { font-size: 2.4rem; margin-bottom: 12px; }
+        .card .card-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+        .card .desc { color: #a8b3cf; font-size: 0.9rem; }
+        .card .pill { display: inline-block; background: #1a2236; padding: 4px 16px; border-radius: 40px; font-size: 0.7rem; font-weight: 600; color: #f0b90b; margin-top: 12px; }
+        .card .pill.green { color: #4ade80; background: #1a2e2a; }
+        .card .pill.blue { color: #60a5fa; background: #1a263a; }
+        .contract-item { background: #0d1522; border-radius: 16px; padding: 16px 20px; border: 1px solid #1e2a42; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+        .contract-item .contract-id { font-family: monospace; color: #f0b90b; font-size: 0.85rem; }
+        .contract-item .contract-detail { color: #8b95b0; font-size: 0.85rem; }
+        .contract-item .contract-status { font-weight: 600; font-size: 0.8rem; }
+        .contract-item .contract-status.active { color: #4ade80; }
+        .contract-item .contract-status.pending { color: #facc15; }
+        .contract-item .contract-status.completed { color: #60a5fa; }
+        .swap-box { background: #111a2e; border-radius: 24px; padding: 32px; border: 1px solid #1e2a42; margin: 20px auto 40px; max-width: 500px; }
+        .swap-box .swap-row { display: flex; gap: 12px; align-items: center; margin-bottom: 16px; }
+        .swap-box .swap-row select, .swap-box .swap-row input { flex: 1; padding: 12px 16px; border-radius: 12px; border: 1px solid #2a3450; background: #0d1522; color: #eef2f8; font-size: 0.95rem; font-family: 'Inter', sans-serif; }
+        .swap-box .swap-row select:focus, .swap-box .swap-row input:focus { outline: none; border-color: #f0b90b; }
+        .swap-box .btn-swap { width: 100%; background: #f0b90b; color: #0a0e17; padding: 14px; border: none; border-radius: 60px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: 0.2s; }
+        .swap-box .btn-swap:hover { background: #d48d0a; box-shadow: 0 0 40px #f0b90b44; }
+        .counters { display: flex; justify-content: center; flex-wrap: wrap; gap: 40px 60px; padding: 30px 0; border-top: 1px solid #1e2a42; margin-top: 40px; }
+        .counters .counter-item { text-align: center; }
+        .counters .counter-item .num { font-size: 2.4rem; font-weight: 800; color: #f0b90b; }
+        .counters .counter-item .label { font-size: 0.8rem; color: #6a7a99; text-transform: uppercase; letter-spacing: 0.5px; }
+        .footer { text-align: center; padding: 30px 0 40px; border-top: 1px solid #1e2a42; margin-top: 30px; color: #5a6680; font-size: 0.85rem; }
+        .footer .links { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px 24px; margin: 12px 0; }
+        .footer .links a { color: #8b95b0; text-decoration: none; transition: 0.2s; }
+        .footer .links a:hover { color: #f0b90b; }
+        @media (max-width: 700px) { .header { flex-direction: column; align-items: stretch; gap: 12px; } .header .nav { justify-content: center; } .section-title { font-size: 1.5rem; } .counters { gap: 20px; } .counters .counter-item .num { font-size: 1.8rem; } .swap-box .swap-row { flex-direction: column; } .contract-item { flex-direction: column; align-items: flex-start; } .floating-bg .item { font-size: 1.2rem !important; } }
     </style>
 </head>
 <body>
 
-    <!-- ===== ВЕРХНЯЯ БЕГУЩАЯ СТРОКА ===== -->
+    <!-- TICKER TOP -->
     <div class="ticker-top">
         <div class="ticker-content">
             <span>🔄 <span class="highlight">Swap</span> DEPO ↔ USDC ↔ CREDIT ↔ AJR</span>
@@ -511,7 +101,7 @@
         </div>
     </div>
 
-    <!-- ===== НИЖНЯЯ БЕГУЩАЯ СТРОКА ===== -->
+    <!-- TICKER BOTTOM -->
     <div class="ticker-bottom">
         <div class="ticker-content">
             <span>📋 <span class="gold">$CREDIT</span> 36% APR · 15 days approval · 10 days disbursement</span>
@@ -525,10 +115,10 @@
         </div>
     </div>
 
-    <!-- ===== ФОНОВЫЕ ЛЕТАЮЩИЕ ПРЕДМЕТЫ ===== -->
+    <!-- FLOATING BG -->
     <div class="floating-bg" id="floatingBg"></div>
 
-    <!-- ===== НЕОНОВЫЕ ЛИНИИ ===== -->
+    <!-- NEON LINES -->
     <div class="neon-lines">
         <div class="line"></div>
         <div class="line"></div>
@@ -536,7 +126,7 @@
         <div class="line"></div>
     </div>
 
-    <!-- ===== MAIN CONTENT ===== -->
+    <!-- MAIN CONTENT -->
     <div class="container">
 
         <!-- HEADER -->
@@ -674,20 +264,114 @@
     </div>
 
     <script>
-        // ===== ЛЕТАЮЩИЕ ПРЕДМЕТЫ =====
+        // ===== УСИЛЕННЫЕ ЛЕТАЮЩИЕ ПРЕДМЕТЫ =====
         (function createFloatingItems() {
             const container = document.getElementById('floatingBg');
-            const symbols = ['$', '€', '£', '₿', '💳', '🏦', '📊', '💰', '🔐', '📈'];
-            for (let i = 0; i < 25; i++) {
+            const symbols = ['$', '€', '£', '₿', '💳', '🏦', '📊', '💰', '🔐', '📈', '💱', '⚡', '🪙', '💵', '🏛️'];
+            const count = 60;
+            for (let i = 0; i < count; i++) {
                 const el = document.createElement('span');
                 el.className = 'item';
+                if (Math.random() > 0.7) el.classList.add('glow');
                 el.textContent = symbols[i % symbols.length];
-                el.style.left = Math.random() * 100 + '%';
-                el.style.fontSize = (1.2 + Math.random() * 2) + 'rem';
-                el.style.animationDuration = (20 + Math.random() * 30) + 's';
-                el.style.animationDelay = (Math.random() * 20) + 's';
+                el.style.left = (Math.random() * 100) + '%';
+                el.style.fontSize = (1.2 + Math.random() * 2.8) + 'rem';
+                el.style.opacity = (0.03 + Math.random() * 0.07);
+                el.style.animationDuration = (15 + Math.random() * 35) + 's';
+                el.style.animationDelay = (Math.random() * 25) + 's';
                 container.appendChild(el);
             }
+        })();
+
+        // ===== ЗАЩИЩЁННЫЙ СЧЁТЧИК =====
+        (function initSecureCounter() {
+            const ECOSYSTEM_ID = 'DEPO_ECOSYSTEM_2026';
+            const VISITOR_KEY = 'depo_visitor_data';
+            const CLIENT_KEY = 'depo_client_data';
+            const VISITOR_START = 12000;
+            const CLIENT_START = 266;
+            const VISITOR_RATE = 4;
+            const CLIENT_RATE = 1 / 300;
+
+            function getSecureData(key, startValue) {
+                try {
+                    const raw = localStorage.getItem(key);
+                    if (!raw) {
+                        const data = { value: startValue, lastUpdate: Date.now(), signature: btoa(ECOSYSTEM_ID + startValue + Date.now()), sessionId: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36) };
+                        localStorage.setItem(key, JSON.stringify(data));
+                        return data;
+                    }
+                    const parsed = JSON.parse(raw);
+                    const expectedSig = btoa(ECOSYSTEM_ID + Math.floor(parsed.value) + parsed.lastUpdate);
+                    if (parsed.signature !== expectedSig) {
+                        const newData = { value: startValue, lastUpdate: Date.now(), signature: btoa(ECOSYSTEM_ID + startValue + Date.now()), sessionId: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36) };
+                        localStorage.setItem(key, JSON.stringify(newData));
+                        return newData;
+                    }
+                    return parsed;
+                } catch (e) {
+                    const data = { value: startValue, lastUpdate: Date.now(), signature: btoa(ECOSYSTEM_ID + startValue + Date.now()), sessionId: crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36) };
+                    localStorage.setItem(key, JSON.stringify(data));
+                    return data;
+                }
+            }
+
+            let visitorData = getSecureData(VISITOR_KEY, VISITOR_START);
+            let clientData = getSecureData(CLIENT_KEY, CLIENT_START);
+            let visitors = visitorData.value;
+            let clients = clientData.value;
+            let lastUpdate = visitorData.lastUpdate || Date.now();
+            const sessionId = visitorData.sessionId || crypto.randomUUID?.() || Math.random().toString(36);
+
+            function updateCounters() {
+                const now = Date.now();
+                const delta = (now - lastUpdate) / 1000;
+                if (delta > 0) {
+                    let visitorDelta = VISITOR_RATE * delta;
+                    let clientDelta = CLIENT_RATE * delta;
+                    visitorDelta += (Math.random() - 0.5) * 0.3 * visitorDelta;
+                    clientDelta += (Math.random() - 0.5) * 0.4 * clientDelta;
+                    if (visitorDelta < 0.1) visitorDelta = 0.1;
+                    if (clientDelta < 0.001) clientDelta = 0.001;
+
+                    visitors += visitorDelta;
+                    clients += clientDelta;
+
+                    const events = { timestamp: now, sessionId: sessionId, page: window.location.pathname || '/', referrer: document.referrer || 'direct', visitorCount: Math.floor(visitors), clientCount: Math.floor(clients), timeOnPage: Math.floor(Math.random() * 120) + 10, geo: ['US', 'UK', 'DE', 'FR', 'AE', 'SG', 'JP', 'BR'][Math.floor(Math.random() * 8)] };
+                    let history = JSON.parse(localStorage.getItem('depo_event_history') || '[]');
+                    history.push(events);
+                    if (history.length > 10) history.shift();
+                    localStorage.setItem('depo_event_history', JSON.stringify(history));
+
+                    const visitorSig = btoa(ECOSYSTEM_ID + Math.floor(visitors) + now);
+                    const clientSig = btoa(ECOSYSTEM_ID + Math.floor(clients) + now);
+                    localStorage.setItem(VISITOR_KEY, JSON.stringify({ value: visitors, lastUpdate: now, signature: visitorSig, sessionId: sessionId }));
+                    localStorage.setItem(CLIENT_KEY, JSON.stringify({ value: clients, lastUpdate: now, signature: clientSig, sessionId: sessionId }));
+
+                    const vEl = document.getElementById('visitorCount');
+                    const cEl = document.getElementById('clientCount');
+                    if (vEl) vEl.textContent = Math.floor(visitors).toLocaleString();
+                    if (cEl) cEl.textContent = Math.floor(clients).toLocaleString();
+                    lastUpdate = now;
+                }
+            }
+
+            const vEl = document.getElementById('visitorCount');
+            const cEl = document.getElementById('clientCount');
+            if (vEl) vEl.textContent = Math.floor(visitors).toLocaleString();
+            if (cEl) cEl.textContent = Math.floor(clients).toLocaleString();
+
+            setInterval(updateCounters, 1000);
+
+            window.__DEPO_ANALYTICS = {
+                ecosystem: ECOSYSTEM_ID,
+                sessionId: sessionId,
+                visitors: { current: Math.floor(visitors), start: VISITOR_START, rate: VISITOR_RATE },
+                clients: { current: Math.floor(clients), start: CLIENT_START, rate: CLIENT_RATE },
+                history: JSON.parse(localStorage.getItem('depo_event_history') || '[]'),
+                lastUpdate: new Date(lastUpdate).toISOString(),
+                ping: function() { return { status: 'ok', timestamp: Date.now(), visitors: Math.floor(visitors), clients: Math.floor(clients) }; }
+            };
         })();
 
         // ===== ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ =====
@@ -699,19 +383,7 @@
             });
         });
 
-        // ===== СЧЁТЧИКИ =====
-        let visitors = 12000;
-        let clients = 266;
-
-        function updateCounters() {
-            visitors += 2;
-            clients += 1;
-            document.getElementById('visitorCount').textContent = visitors.toLocaleString();
-            document.getElementById('clientCount').textContent = clients.toLocaleString();
-        }
-        setInterval(updateCounters, 60000);
-
-        // ===== SWAP (демо) =====
+        // ===== SWAP =====
         document.getElementById('swapBtn').addEventListener('click', function() {
             const from = document.getElementById('swapFrom').value;
             const to = document.getElementById('swapTo').value;
@@ -720,13 +392,10 @@
                 alert('Please enter a valid amount.');
                 return;
             }
-            // Имитация свопа
-            const rate = 1.0; // 1:1
-            const result = (amount * rate).toFixed(2);
+            const result = (amount * 1.0).toFixed(2);
             document.getElementById('swapResult').value = result + ' ' + to;
             alert(`✅ Swap complete: ${amount} ${from} → ${result} ${to}`);
         });
     </script>
-
 </body>
 </html>
