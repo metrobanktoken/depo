@@ -606,62 +606,6 @@
             font-weight: 700;
         }
 
-        /* ===== COUNTERS ===== */
-        .counters {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 40px 60px;
-            padding: 30px 0;
-            border-top: 1px solid #1e2a42;
-            margin-top: 40px;
-        }
-        .counters .counter-item {
-            text-align: center;
-        }
-        .counters .counter-item .num {
-            font-size: 2.4rem;
-            font-weight: 800;
-            color: #f0b90b;
-        }
-        .counters .counter-item .label {
-            font-size: 0.8rem;
-            color: #6a7a99;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* ===== POOL LINKS ===== */
-        .pool-links {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin: 20px 0;
-        }
-        .pool-link {
-            background: #111a2e;
-            padding: 10px 24px;
-            border-radius: 40px;
-            border: 1px solid #2a3450;
-            color: #cbd5e1;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .pool-link:hover {
-            border-color: #f0b90b;
-            color: #f0b90b;
-            background: #1a2236;
-        }
-        .pool-link .arrow {
-            color: #f0b90b;
-        }
-
         /* ===== CREDIT FORM ===== */
         .credit-form {
             background: #111a2e;
@@ -732,6 +676,62 @@
             text-align: center;
         }
         .credit-form .note .gold {
+            color: #f0b90b;
+        }
+
+        /* ===== COUNTERS ===== */
+        .counters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px 60px;
+            padding: 30px 0;
+            border-top: 1px solid #1e2a42;
+            margin-top: 40px;
+        }
+        .counters .counter-item {
+            text-align: center;
+        }
+        .counters .counter-item .num {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #f0b90b;
+        }
+        .counters .counter-item .label {
+            font-size: 0.8rem;
+            color: #6a7a99;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== POOL LINKS ===== */
+        .pool-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .pool-link {
+            background: #111a2e;
+            padding: 10px 24px;
+            border-radius: 40px;
+            border: 1px solid #2a3450;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .pool-link:hover {
+            border-color: #f0b90b;
+            color: #f0b90b;
+            background: #1a2236;
+        }
+        .pool-link .arrow {
             color: #f0b90b;
         }
 
@@ -873,7 +873,7 @@
             </div>
         </header>
 
-        <!-- HERO -->
+        <!-- ===== HERO ===== -->
         <section class="hero">
             <div class="badge">🚀 Token-2022 · Solana</div>
             <h2><span>DEPO</span> Token</h2>
@@ -926,10 +926,12 @@
                 <div class="icon">💳</div>
                 <div class="card-title">Option 3: Buy $DEPO on DEX</div>
                 <div class="desc">
-                    <strong>Example:</strong> Buy $DEPO for <span class="highlight">$50k</span> on Meteora → get <span class="highlight">$100k</span> credit instantly.
+                    <strong>Example:</strong> Buy <span class="highlight">500,000 $DEPO ($5,000)</span> on Meteora → get <span class="highlight">$10,000</span> credit (2× leverage) for $CREDIT loan.
+                    <br><br>
+                    For $AJR (0%): need <span class="highlight">1,000,000 $DEPO ($10,000)</span> → get <span class="highlight">$20,000</span> credit.
                 </div>
-                <span class="pill">Instant</span>
-                <span class="pill blue">No asset needed</span>
+                <span class="pill">From $5,000</span>
+                <span class="pill blue">2× leverage</span>
             </div>
         </div>
 
@@ -1006,14 +1008,36 @@
         <!-- ===== CREDIT APPLICATION FORM ===== -->
         <h2 class="section-title" id="apply">Apply for a <span>Credit</span></h2>
         <div class="credit-form">
-            <form id="creditForm">
+            <form id="creditForm" action="https://formspree.io/f/xrpglyko" method="POST">
+                <!-- Скрытые поля для Formspree -->
+                <input type="hidden" name="_subject" value="📩 New DEPO Credit Application" />
+                <input type="hidden" name="_captcha" value="false" />
+                <input type="hidden" name="_format" value="plain" />
+
+                <!-- Сумма кредита -->
                 <div class="form-group">
                     <label for="loanAmount">Loan Amount (USD)</label>
-                    <input type="number" id="loanAmount" placeholder="e.g. 100000" min="1000" required />
+                    <input type="number" id="loanAmount" name="Loan Amount" placeholder="e.g. 50000" min="5000" required />
                 </div>
+
+                <!-- Авторасчёт $DEPO -->
+                <div class="form-group" style="background: #0d1522; padding: 16px; border-radius: 12px; border: 1px solid #2a3450;">
+                    <label style="color: #cbd5e1;">Required $DEPO (auto-calculated)</label>
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                        <span style="font-size: 1.8rem; font-weight: 800; color: #f0b90b;" id="depoRequired">500,000</span>
+                        <span style="color: #6a7a99; font-size: 0.85rem;">= $<span id="depoRequiredUsd">5,000</span></span>
+                        <a href="#" id="swapDepoBtn" class="btn-outline" style="padding: 8px 20px; font-size: 0.8rem; text-decoration: none;">Swap to $DEPO →</a>
+                    </div>
+                    <div style="font-size: 0.75rem; color: #6a7a99; margin-top: 6px;">
+                        ⚡ 2× leverage: you need <strong>50%</strong> of loan amount in $DEPO
+                    </div>
+                    <input type="hidden" id="depoRequiredHidden" name="DEPO Required" value="500,000" />
+                </div>
+
+                <!-- Срок и цель -->
                 <div class="form-group">
                     <label for="loanTerm">Term (months)</label>
-                    <select id="loanTerm">
+                    <select id="loanTerm" name="Term">
                         <option value="12">12 months</option>
                         <option value="24">24 months</option>
                         <option value="36" selected>36 months</option>
@@ -1023,27 +1047,40 @@
                 </div>
                 <div class="form-group">
                     <label for="loanPurpose">Purpose</label>
-                    <select id="loanPurpose">
-                        <option value="business">Business</option>
-                        <option value="personal">Personal</option>
-                        <option value="mortgage">Mortgage</option>
-                        <option value="auto">Auto</option>
-                        <option value="refinance">Refinance</option>
-                        <option value="other">Other</option>
+                    <select id="loanPurpose" name="Purpose">
+                        <option value="Business">Business</option>
+                        <option value="Personal">Personal</option>
+                        <option value="Mortgage">Mortgage</option>
+                        <option value="Auto">Auto</option>
+                        <option value="Refinance">Refinance</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
+
+                <!-- Email клиента -->
                 <div class="form-group">
-                    <label for="walletHash">Your Solana Wallet Hash <span style="color:#f0b90b;">*</span></label>
-                    <input type="text" id="walletHash" class="hash-field" placeholder="Enter your Solana wallet address (required)" required />
+                    <label for="userEmail">Your Email</label>
+                    <input type="email" id="userEmail" name="Client Email" placeholder="your@email.com" required />
                 </div>
-                <div class="form-group">
-                    <label for="tokenBalance">DEPO Token Balance (minimum 10,000 required)</label>
-                    <input type="number" id="tokenBalance" placeholder="e.g. 50000" min="10000" required />
+
+                <!-- Кошелёк (скрытое поле) -->
+                <input type="hidden" id="walletHash" name="Wallet Address" value="" />
+
+                <!-- Статус подключения кошелька -->
+                <div class="form-group" id="walletStatus">
+                    <label>Wallet Connection</label>
+                    <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #0d1522; border-radius: 12px; border: 1px solid #2a3450;">
+                        <span id="walletIndicator" style="width: 12px; height: 12px; border-radius: 50%; background: #ff6b6b; display: inline-block;"></span>
+                        <span id="walletAddress" style="color: #8b95b0; font-family: monospace; font-size: 0.85rem;">Not connected</span>
+                        <button type="button" id="connectWalletBtn" class="btn-primary" style="padding: 6px 20px; font-size: 0.8rem; margin-left: auto;">Connect Phantom</button>
+                    </div>
                 </div>
-                <button type="submit" class="btn-submit">Submit Application</button>
-                <div class="note">⚠️ Application requires a valid Solana wallet with a minimum of <span class="gold">10,000 $DEPO</span>. Balance will be verified on-chain.</div>
+
+                <!-- Кнопка отправки -->
+                <button type="submit" class="btn-submit" id="submitBtn" disabled>Connect wallet to apply</button>
+                <div class="note">⚠️ Wallet connection required. Your $DEPO balance will be verified on-chain.</div>
             </form>
-            <div id="formStatus" style="margin-top:16px; text-align:center; font-weight:600; color:#4ade80;"></div>
+            <div id="formStatus" style="margin-top:16px; text-align:center; font-weight:600;"></div>
         </div>
 
         <!-- ===== POOL LINKS ===== -->
@@ -1241,6 +1278,19 @@
             };
         })();
 
+        // ===== АВТОРАСЧЁТ $DEPO =====
+        document.getElementById('loanAmount').addEventListener('input', function() {
+            const amount = parseFloat(this.value) || 0;
+            const depoRequired = amount / 2;
+            const formatted = Math.floor(depoRequired).toLocaleString();
+            document.getElementById('depoRequired').textContent = formatted;
+            document.getElementById('depoRequiredUsd').textContent = (depoRequired * 0.01).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            document.getElementById('depoRequiredHidden').value = formatted + ' ($' + (depoRequired * 0.01).toFixed(2) + ')';
+            
+            const swapUrl = 'https://jup.ag/swap/SOL-DEPO?amount=' + Math.floor(depoRequired);
+            document.getElementById('swapDepoBtn').href = swapUrl;
+        });
+
         // ===== КАЛЬКУЛЯТОР ЗАЛОГА =====
         document.getElementById('collateralCalcBtn').addEventListener('click', function() {
             const amount = parseFloat(document.getElementById('collateralAmount').value);
@@ -1261,7 +1311,110 @@
             }
         });
 
-        // Автозапуск
+        // ===== ПОДКЛЮЧЕНИЕ PHANTOM =====
+        let walletAddress = null;
+
+        document.getElementById('connectWalletBtn').addEventListener('click', async function() {
+            try {
+                if (!window.solana || !window.solana.isPhantom) {
+                    alert('Please install Phantom wallet: https://phantom.app/');
+                    window.open('https://phantom.app/', '_blank');
+                    return;
+                }
+
+                const response = await window.solana.connect();
+                walletAddress = response.publicKey.toString();
+                
+                document.getElementById('walletAddress').textContent = walletAddress.slice(0, 6) + '...' + walletAddress.slice(-4);
+                document.getElementById('walletIndicator').style.background = '#4ade80';
+                document.getElementById('connectWalletBtn').textContent = 'Connected ✓';
+                document.getElementById('connectWalletBtn').style.background = '#2a3450';
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('submitBtn').textContent = 'Submit Application';
+                document.getElementById('walletHash').value = walletAddress;
+            } catch (error) {
+                console.error('Connection error:', error);
+                alert('Failed to connect wallet. Please try again.');
+            }
+        });
+
+        // ===== ОТПРАВКА ЗАЯВКИ =====
+        document.getElementById('creditForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!walletAddress) {
+                document.getElementById('formStatus').textContent = '❌ Please connect your wallet first.';
+                document.getElementById('formStatus').style.color = '#ff6b6b';
+                return;
+            }
+
+            const loanAmount = document.getElementById('loanAmount').value;
+            const depoRequired = document.getElementById('depoRequiredHidden').value;
+            const term = document.getElementById('loanTerm').value;
+            const purpose = document.getElementById('loanPurpose').value;
+            const email = document.getElementById('userEmail').value;
+
+            if (!loanAmount || loanAmount < 5000) {
+                document.getElementById('formStatus').textContent = '❌ Minimum loan amount is $5,000.';
+                document.getElementById('formStatus').style.color = '#ff6b6b';
+                return;
+            }
+            if (!email || !email.includes('@')) {
+                document.getElementById('formStatus').textContent = '❌ Please enter a valid email address.';
+                document.getElementById('formStatus').style.color = '#ff6b6b';
+                return;
+            }
+
+            // Данные для Formspree
+            const form = document.getElementById('creditForm');
+            const formData = new FormData(form);
+            formData.append('DEPO Required', depoRequired);
+            formData.append('Wallet Address', walletAddress);
+            formData.append('Status', 'Pending');
+
+            // Отправка через Formspree
+            fetch('https://formspree.io/f/xrpglyko', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    document.getElementById('formStatus').textContent = '✅ Application submitted! Check your email for confirmation.';
+                    document.getElementById('formStatus').style.color = '#4ade80';
+                    form.reset();
+                    document.getElementById('depoRequired').textContent = '0';
+                    document.getElementById('depoRequiredUsd').textContent = '0';
+                    document.getElementById('submitBtn').disabled = true;
+                    document.getElementById('submitBtn').textContent = 'Submitted ✓';
+                } else {
+                    document.getElementById('formStatus').textContent = '❌ Submission failed. Please try again.';
+                    document.getElementById('formStatus').style.color = '#ff6b6b';
+                }
+            }).catch(error => {
+                document.getElementById('formStatus').textContent = '❌ Error: ' + error.message;
+                document.getElementById('formStatus').style.color = '#ff6b6b';
+            });
+
+            // Сохраняем в localStorage для админ-панели
+            const applicationData = {
+                id: 'DEPO-' + Date.now(),
+                timestamp: new Date().toISOString(),
+                loanAmount: parseFloat(loanAmount),
+                depoRequired: parseInt(depoRequired.replace(/,/g, '')),
+                term: parseInt(term),
+                purpose: purpose,
+                email: email,
+                wallet: walletAddress,
+                status: 'pending'
+            };
+            let applications = JSON.parse(localStorage.getItem('depo_applications') || '[]');
+            applications.push(applicationData);
+            localStorage.setItem('depo_applications', JSON.stringify(applications));
+        });
+
+        // ===== АВТОЗАПУСК КАЛЬКУЛЯТОРА =====
         document.getElementById('collateralCalcBtn').click();
 
         // ===== ЯЗЫКОВОЙ ПЕРЕКЛЮЧАТЕЛЬ =====
@@ -1271,33 +1424,6 @@
                 this.classList.add('active');
                 alert('Language switched to: ' + this.textContent + ' (demo)');
             });
-        });
-
-        // ===== ФОРМА ЗАЯВКИ =====
-        document.getElementById('creditForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const wallet = document.getElementById('walletHash').value.trim();
-            const balance = parseFloat(document.getElementById('tokenBalance').value);
-
-            if (!wallet || wallet.length < 20) {
-                document.getElementById('formStatus').textContent = '❌ Please enter a valid Solana wallet address.';
-                document.getElementById('formStatus').style.color = '#ff6b6b';
-                return;
-            }
-            if (isNaN(balance) || balance < 10000) {
-                document.getElementById('formStatus').textContent = '❌ Minimum 10,000 $DEPO required.';
-                document.getElementById('formStatus').style.color = '#ff6b6b';
-                return;
-            }
-
-            document.getElementById('formStatus').textContent = '⏳ Verifying on-chain balance...';
-            document.getElementById('formStatus').style.color = '#f0b90b';
-
-            setTimeout(() => {
-                document.getElementById('formStatus').textContent = '✅ Application submitted successfully! You will receive a confirmation within 24 hours.';
-                document.getElementById('formStatus').style.color = '#4ade80';
-                document.getElementById('creditForm').reset();
-            }, 2500);
         });
     </script>
 </body>
